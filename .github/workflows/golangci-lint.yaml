@@ -1,0 +1,35 @@
+name: golangci-lint
+on:
+  pull_request:
+
+concurrency:
+  group: "${{ github.workflow }}/${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  golangci:
+    name: lint
+    # DO NOT PIN THIS TO A GO VERSION!
+    # We automatically use the go minor version in the mod file and will miss golang updates and issues relate to new go versions.
+    # Yes there is one linter rowserrcheck automatically turned off because of generics
+    #  - unless we are doing DB development it does not matter, and it should be fixed soon.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trust my checkout
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+      - uses: actions/checkout@v3
+
+      - name: get golangci-lint version
+        id: lint
+        run: |
+          version=$(cat go.mod | grep golangci-lint  | cut -d " " -f 2 | sed -E 's/(v[0-9]+\.[0-9]+.[0-9]+).*/\1/')
+          echo "golangci-lint version: '${version}'"
+          echo "version=${version}" >> $GITHUB_OUTPUT;
+
+      - name: lint
+        uses: golangci/golangci-lint-action@v3.4.0
+        with:
+          working-directory: /
+          args: --config='.golangci.yaml' -v --timeout='2m'
+          version: ${{ steps.lint.outputs.version }}
+          skip-cache: true
