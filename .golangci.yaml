@@ -1,0 +1,96 @@
+
+# golangci.com configuration
+# https://github.com/golangci/golangci/wiki/Configuration
+---
+linters-settings:
+  dupl:
+    threshold: 30
+  exhaustive:
+    default-signifies-exhaustive: false
+  funlen:
+    lines: 50
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  gocognit:
+    min-complexity: 10
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+  gocyclo:
+    min-complexity: 5
+  gomnd:
+    settings:
+      mnd:
+        # don't include the "operation" and "assign"
+        checks:
+          - argument
+          - case
+          - condition
+          - return
+  govet:
+    check-shadowing: true
+  lll:
+    line-length: 10
+  maligned:
+    suggest-new: true
+  nolintlint:
+    allow-leading-space: true # don't require machine-readable nolint directives (i.e. with no leading space)
+    allow-unused: false # report any unused nolint directives
+    require-explanation: false # don't require an explanation for nolint directives
+    require-specific: false # don't require nolint directives to be specific about which linter is being skipped
+  staticcheck:
+    checks: ["all"]
+  stylecheck:
+    go: "1.20"
+    # https://staticcheck.io/docs/options#checks
+    checks: ["all", "-ST1003", "-ST1005"]
+    dot-import-whitelist:
+      - github.com/onsi/ginkgo/v2
+      - github.com/onsi/gomega
+      - github.com/onsi/gomega/gexec
+
+linters:
+  # please, do not use `enable-all`: it's deprecated and will be removed soon.
+  # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
+  disable-all: true
+  enable:
+    - asciicheck
+    - bodyclose
+    - depguard
+    - dogsled
+    - dupl
+    - errcheck
+    - funlen
+    - gocognit
+    - goconst
+    - gocyclo
+    - gofmt
+    - goimports
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - gomoddirectives
+    - gomodguard
+    - ineffassign
+    - misspell
+    - nakedret
+    - nolintlint
+    - rowserrcheck
+    - staticcheck
+    - stylecheck
+    - testpackage
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - whitespace
+    - godox
+    - staticcheck
+    - prealloc
+run:
+  go: '1.20'
