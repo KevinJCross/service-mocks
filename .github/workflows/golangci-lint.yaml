@@ -1,9 +1,11 @@
 name: Golangci-lint
+
 on:
-  - pull_request:
-  - push:
-      branches:
-        - 'main'
+  pull_request:
+  push:
+    branches:
+      - 'main'
+
 jobs:
   golangci:
     name: lint
@@ -27,7 +29,6 @@ jobs:
       - name: lint
         uses: golangci/golangci-lint-action@v3.4.0
         with:
-          working-directory: /
-          args: --config='.golangci.yaml' -v --timeout='2m'
+          args: --config='./.golangci.yaml' -v --timeout='2m'
           version: ${{ steps.lint.outputs.version }}
           skip-cache: true

@@ -6,15 +6,11 @@ updates:
     directory: "/"
     labels: [ "dependencies" ]
     schedule:
-      interval: "weekly"
-      time: "03:00"
-      timezone: "Europe/Berlin"
+      interval: "daily"
 
   # Gomod updates
   - package-ecosystem: "gomod"
     directory: "/"
-    labels: [ "weekly" ]
+    labels: [ "week" ]
     schedule:
       interval: "daily"
-      time: "01:00"
-      timezone: "Europe/Berlin"
